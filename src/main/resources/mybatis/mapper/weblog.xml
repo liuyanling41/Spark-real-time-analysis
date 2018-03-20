@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.WebLogDao">
+    <select id="webcount" resultType="pojo.bo.WebLogBO">
+         select * from weblog order by webcount desc limit 10;
+    </select>
+    <select id="websum" resultType="java.lang.Long">
+        select count(titleName) from weblog;
+    </select>
+    <select id="peoplesum" resultType="java.lang.Long">
+        select sum(webcount) from weblog;
+    </select>
+</mapper>

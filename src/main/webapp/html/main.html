@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="App" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/common/include.js"></script>
+    <script type="text/javascript" src="../js/weblog.js"></script>
+
+    <style>
+        .text {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/ng-template" id="total.html">
+    <div class="tangroup-name">汇总统计</div>
+    <div class="modal-body">
+        <button type="button" class="btn btn-primary" ng-click="totalpeople()">日访问人数汇总</button>
+        {{people}}
+        <hr>
+        <button type="button" class="btn btn-primary" ng-click="totalname()">话题数汇总</button>
+        {{name}}
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="cancel()">关闭</button>
+    </div>
+</script>
+
+
+<h1 class="text">搜狗新闻用户浏览话题实时统计分析</h1>
+
+<div class="text" ng-controller="controller_index">
+    <button class="btn btn-primary" ng-click="start()"/>
+    实时分析</button>
+    <button class="btn btn-primary" ng-click="select()"/>
+    离线统计</button>
+</div>
+<hr>
+<div>
+    <div id="count" style="width:50%;height:600px;float:left;"></div>
+    <div id="sum" style="width:50%;height:700px;float:right;"></div>
+</div>
+
+</body>
+</html>

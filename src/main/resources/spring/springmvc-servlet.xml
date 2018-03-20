@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jee
+		http://www.springframework.org/schema/jee/spring-jee-4.1.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-4.1.xsd">
+
+    <!-- 启用spring mvc 注解 -->
+    <context:annotation-config />
+    <!-- 启用注解，并定义组件查找规则:设置使用注解的类所在的包 -->
+    <context:component-scan base-package="controller"></context:component-scan>
+    <!-- 视图处理器,对转向页面的路径解析。prefix：前缀， suffix：后缀-->
+    <!-- 关于视图的返回:Controller只负责传回来一个值，然后到底返回的是什么视图，是由视图解析器控制的，
+    在jsp中常用的视图解析器是InternalResourceViewResovler，它会要求一个前缀和一个后缀
+    在上述视图解析器中，如果Controller返回的是blog/index，那么通过视图解析器解析之后的视图就是/jsp/blog/index.jsp。-->
+    <!--<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/html/" />
+        <property name="suffix" value=".html" />
+    </bean>-->
+    <!-- servlet适配器，这里必须明确声明，因为spring默认没有初始化该适配器 -->
+    <bean id="servletHandlerAdapter" class="org.springframework.web.servlet.handler.SimpleServletHandlerAdapter" />
+    <mvc:default-servlet-handler/>
+    <!-- 定义文件上传处理器 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" p:defaultEncoding="UTF-8" />
+    <!-- 本地化资源处理器 -->
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
+    <!-- 定义本地化变更拦截器 -->
+    <bean id="localeChangeInterceptor"	class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+    <!-- 会自动注册RequestMappingHandlerMapping与RequestMappingHandlerAdapter 两个bean,是springMVC为@Controllers分发请求所必须的。
+    提供了数据绑定支持，@NumberFormatannotation支持，@DateTimeFormat支持，@Valid支持，读写XML的支持（JAXB），读写JSON的支持（Jackson）
+    相当于语句<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>-->
+    <mvc:annotation-driven />
+    <!-- 资源访问处理器 -->
+    <!--如果你的DispatcherServlet拦截 *.do这样的URL，就不存在访问不到静态资源的问题。如果你的DispatcherServlet拦截“/”，拦截了所有的请求，同时对*.js,*.jpg的访问也就被拦截了。
+    目的：可以正常访问静态文件，不要找不到静态文件报404。
+    方案： 在spring3.0.4以后版本提供了mvc:resources 的使用方法：-->
+    <mvc:resources mapping="/static/**" location="/static/" />
+    <mvc:resources mapping="/js/**" location="/js/" />
+    <mvc:resources mapping="/html/**" location="/html/" />
+</beans>

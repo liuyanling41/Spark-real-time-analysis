@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://www.springframework.org/schema/aop   http://www.springframework.org/schema/aop/spring-aop-3.2.xsd  http://www.springframework.org/schema/tx   http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+       http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-3.2.xsd"
+       default-autowire="byName" default-lazy-init="false">
+
+    <!-- spring-context主要包含
+        1、配置数据库(dateSource中配数据库地址用户名密码等)
+        将数据源（mapper文件,mybatis-config文件，dateSource）映射到sqlSessionFactory中
+        创建sqlsession模板类实例
+        2、进行事物配置：事务管理器（由Spring管理MyBatis的事务）
+        3、声明使用注释的方式配置bean,配置要扫描的包
+        4、CGLib动态代理
+-->
+    <!-- 采用注释的方式配置bean -->
+    <context:annotation-config/>
+
+    <!-- 配置要扫描的包,该配置的功能是扫描配置的base-package包下的所有使用了@Component注解的类，并且将它们自动注册到容器中，同时也扫描@Controller，@Service，@Respository这三个注解，因为他们是继承自@Component。-->
+    <context:component-scan base-package="service"/>
+    <context:component-scan base-package="persistence"/>
+    <!-- proxy-target-class默认"false",更改为"ture"使用CGLib动态代理 -->
+    <!-- JDK实现动态代理需要实现类通过接口定义业务方法，对于没有接口的类，如何实现动态代理呢，这就需要CGLib了。
+    CGLib采用了非常底层的字节码技术，其原理是通过字节码技术为一个类创建子类，并在子类中采用方法拦截的技术拦截所有父类方法的调用，顺势织入横切逻辑。
+    JDK动态代理与CGLib动态代理均是实现Spring AOP的基础。
+    CGLib创建的动态代理对象性能比JDK创建的动态代理对象的性能高不少，但是CGLib在创建代理对象时所花费的时间却比JDK多得多，
+    所以对于单例的对象，因为无需频繁创建对象，用CGLib合适，反之，使用JDK方式要更为合适一些。同时，由于CGLib由于是采用动态创建子类的方法，对于final方法，无法进行代理。-->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <!-- 读入配置属性文件 -->
+    <context:property-placeholder location="classpath:config.properties" />
+    <import resource="classpath*:spring/spring-mybatis.xml" />
+
+
+</beans>
