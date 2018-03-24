@@ -1,4 +1,4 @@
-package test;
+﻿package test;
 
 import facade.WebLogService;
 
@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 测试类
  * Created by liuyanling on 2018/3/17
  */
 @RunWith(SpringJUnit4ClassRunner.class)
