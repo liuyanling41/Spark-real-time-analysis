@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Dao层的基础增删改查方法类
  * Created by LYL on 2017/10/25.
  */
 public class BaseDaoImpl<T,P>{

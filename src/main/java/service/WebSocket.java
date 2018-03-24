@@ -1,4 +1,4 @@
-package service;
+﻿package service;
 
 import org.springframework.web.socket.server.standard.SpringConfigurator;
 import com.alibaba.fastjson.JSON;
@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * WebSocket与前台后台对接实现全双工通信
  * Created by liuyanling on 2018/3/17
  */
 @ServerEndpoint(value = "/websocket", configurator = SpringConfigurator.class)
